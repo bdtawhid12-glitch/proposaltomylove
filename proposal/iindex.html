@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>For Nazifa ❤️</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  text-align: center;
+  background: linear-gradient(to bottom, #ffe4ec, #ffffff);
+  overflow-x: hidden;
+}
+
+nav {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  padding: 15px;
+  background: rgba(255,255,255,0.9);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+nav button {
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.page {
+  display: none;
+  padding: 50px 20px;
+  animation: fade 1s ease;
+}
+
+.active { display: block; }
+
+@keyframes fade {
+  from {opacity:0; transform:translateY(20px);}
+  to {opacity:1; transform:translateY(0);}
+}
+
+.name {
+  font-size: 42px;
+  font-weight: bold;
+  color: #ff4d88;
+  animation: glow 2s infinite alternate;
+}
+
+@keyframes glow {
+  from {text-shadow: 0 0 10px pink;}
+  to {text-shadow: 0 0 25px red;}
+}
+
+.gallery img {
+  width: 250px;
+  margin: 10px;
+  border-radius: 20px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+}
+
+video {
+  width: 90%;
+  max-width: 200px;
+  border-radius: 20px;
+}
+
+.yes {
+  background: #ff4d88;
+  color: white;
+  padding: 12px 25px;
+  border-radius: 20px;
+  font-size: 18px;
+  border: none;
+  cursor: pointer;
+}
+
+.no {
+  background: #ddd;
+  padding: 12px 25px;
+  border-radius: 20px;
+  border: none;
+  position: relative;
+}
+
+.heart {
+  position: fixed;
+  color: red;
+  font-size: 20px;
+  animation: float 3s linear infinite;
+}
+
+@keyframes float {
+  0% {transform: translateY(0);}
+  100% {transform: translateY(-100vh);}
+}
+</style>
+</head>
+
+<body>
+
+<!-- 🔐 LOCK SCREEN -->
+<div id="lockScreen" style="
+  position:fixed;
+  top:0; left:0;
+  width:100%;
+  height:100%;
+  background:black;
+  color:white;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  z-index:9999;
+">
+
+  <h2>Enter Her Birthday 💖</h2>
+
+  <input type="password" id="codeInput" placeholder="YYYYMMDD"
+    style="padding:10px; font-size:18px; border-radius:10px; border:none; margin:10px; text-align:center;">
+
+  <button onclick="checkCode()" style="
+    padding:10px 20px;
+    background:#ff4d88;
+    color:white;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+  ">
+    Unlock 🔓
+  </button>
+
+  <p id="error" style="color:red;"></p>
+</div>
+
+<!-- 🔥 MAIN WEBSITE -->
+<div id="mainContent" style="display:none;">
+
+<!-- MUSIC -->
+<audio autoplay loop>
+  <source src="nazz.mp3" type="audio/mp3">
+</audio>
+
+<!-- NAV -->
+<nav>
+  <button onclick="showPage('home')">Home</button>
+  <button onclick="showPage('gallery')">Gallery</button>
+  <button onclick="showPage('video')">Video</button>
+  <button onclick="showPage('message')">Message</button>
+</nav>
+
+<!-- HOME -->
+<div id="home" class="page active">
+  <h1 class="name">Nazifa Anjum ❤️</h1>
+  <p>You are the most beautiful part of my life...</p>
+  <h2>This is just for you 💕</h2>
+</div>
+
+<!-- GALLERY -->
+<div id="gallery" class="page gallery">
+  <h2>my beautiful baby</h2>
+  <img src="nazzz.jpeg">
+  <img src="nazz2.jpeg">
+  <img src="nazz3.jpeg">
+  <img src="nazz4.jpeg">
+</div>
+
+<!-- VIDEO -->
+<div id="video" class="page">
+  <h2>Our Special Moments 🎥</h2>
+
+  <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:20px;">
+    <video controls width="200">
+      <source src="nazzvideo.mp4" type="video/mp4">
+    </video>
+
+    <video controls width="200">
+      <source src="nazzvideo2.mp4" type="video/mp4">
+    </video>
+
+    <video controls width="200">
+      <source src="nazzvideo3.mp4" type="video/mp4">
+    </video>
+
+    <video controls width="200">
+      <source src="nazzvideo4.mp4" type="video/mp4">
+    </video>
+  </div>
+</div>
+
+<!-- MESSAGE -->
+<div id="message" class="page">
+  <h2>Mrs. Tawhid</h2>
+  <p>
+    From the moment you came into my life, everything changed.<br>
+    You are my happiness, my peace, my everything.
+  </p>
+
+  <h1 style="color:#ff4d88;">Will You be mine, Nazifa Anjum Mita? 💍</h1>
+
+  <div style="margin-top:20px;">
+    <button class="yes" onclick="sendAnswer()">Yes 💕</button>
+    <button class="no" onmouseover="moveButton(this)">No 😅</button>
+  </div>
+
+  <p id="status" style="margin-top:15px;"></p>
+</div>
+
+</div> <!-- END mainContent -->
+
+<script>
+const FORM_ENDPOINT = "https://formspree.io/f/xqewzron";
+
+// PAGE SWITCH
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+// LOCK FUNCTION
+function checkCode() {
+  const code = document.getElementById("codeInput").value;
+
+  if (code === "20051213") {
+    document.getElementById("lockScreen").style.display = "none";
+    document.getElementById("mainContent").style.display = "block";
+  } else {
+    document.getElementById("error").innerText = "Wrong date 😢";
+  }
+}
+
+// ENTER KEY SUPPORT
+window.onload = function() {
+  document.getElementById("codeInput").addEventListener("keypress", function(e) {
+    if (e.key === "Enter") {
+      checkCode();
+    }
+  });
+};
+
+// SEND ANSWER
+async function sendAnswer() {
+  await fetch(FORM_ENDPOINT, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      name: "Nazifa Anjum",
+      answer: "Yes 💕"
+    })
+  });
+
+  document.getElementById("status").innerText =
+    "Let’s walk through every moment of life together, holding each other’s hand, never letting go 💕";
+
+  confetti();
+}
+
+// RUN AWAY BUTTON
+function moveButton(btn) {
+  btn.style.position = "absolute";
+  btn.style.top = Math.random() * 80 + "%";
+  btn.style.left = Math.random() * 80 + "%";
+}
+
+// CONFETTI
+function confetti() {
+  for (let i = 0; i < 30; i++) {
+    let heart = document.createElement("div");
+    heart.innerHTML = "❤️";
+    heart.className = "heart";
+    heart.style.left = Math.random() * 100 + "vw";
+    document.body.appendChild(heart);
+
+    setTimeout(() => heart.remove(), 3000);
+  }
+}
+</script>
+
+</body>
+</html>
